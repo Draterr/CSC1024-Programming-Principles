@@ -1,2 +1,2 @@
-# Notes/Practical FOR CSC1024 Programming Principles
+# Notes/Practical for CSC1024 Programming Principles
 
