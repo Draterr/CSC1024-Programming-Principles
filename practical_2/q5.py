@@ -1,3 +1,5 @@
+import math
+pi = math.pi
 choice = input("Choose 'R' or 'r' for rectangle and 'C' or 'c' for Circle: ")
 
 if choice == 'R' or choice == 'r':
@@ -7,6 +9,5 @@ if choice == 'R' or choice == 'r':
     print("The area of the rectangle is" ,res)
 else:
     radius = float(input("Enter the radius of the circle: "))
-    pi = 3.14159
     res = pi * (radius **2)
-    print("The area of the circle is" , res)
+    print("The area of the circle is" , round(res,2))
