@@ -3,9 +3,11 @@ guess = 0
 i = 0
 while True:
     guess = int(input("Enter your guess: "))
-    if guess != secret_num:
-        print("Your guess is too low or too high")
-        i+=1
+    i+=1
+    if guess > secret_num:
+        print("Your guess is too high")
+    elif guess < secret_num:
+        print("Your guess is too Low")
     else:
         break
 
