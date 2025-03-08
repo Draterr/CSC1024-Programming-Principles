@@ -1,0 +1,42 @@
+Course:
+	Data Validation:
+		- check if a course ID or course name already exist
+			/ if yes ask the user if they wanna overwrite the previous record
+			/ remove the old record
+			/ insert the new record to the end of the file
+
+			x if not just insert normally
+		- check if the input are comma separated
+			/ Ex: CSC1024,Programming Principles,100
+			/ if the inputs are comma separated
+				* check if the course ID or course name are empty
+				* check if the seats available is an integer
+					/ if so insert the record
+					x if not prompt an error	
+					x ask the user to enter the information again
+
+			x if not prompt an error
+			x ask the user to enter the information again
+
+Student:
+	Data Validation:
+		- check if a student ID or student name already exist
+			/ if yes ask the user if they wanna overwrite the previous record
+			/ remove the old record
+			/ insert the new record to the end of the file
+
+			x if not just insert normally
+		- check if the input are comma separated
+			/ Ex: s241314,John Doe,+60 123458279
+			/ if yes 
+				* check if the student ID or student name are empty
+					/ if so insert the record
+
+					x if not prompt an error	
+					x ask the user to enter the information again
+
+			x if not prompt an error
+			x ask the user to enter the information again
+
+enrol course:
+	- Check if student is already enrolled

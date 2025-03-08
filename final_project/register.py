@@ -13,9 +13,9 @@ def initial_data_preparation(files):
     """
 
     #iterate over a nested list called files to create each file, if we wanted to create a new file we just need to append a new list to the files list
-    for file_list in files:
-        file_name = file_list[0]
-        file_header = file_list[1]
+    for individual_file_properties in files:
+        file_name = individual_file_properties[0]
+        file_header = individual_file_properties[1]
         #we check if the file already exists to prevent writing extra headers
         if not os.path.isfile(file_name):
             with open(file_name,"w+") as file_handle:
@@ -48,7 +48,15 @@ def add_new_student():
 def add_new_course():
     return
 
-def enrol_in_course():
+def enrol_in_course(course_identifier):
+    with open("courses.txt","r") as courses_file_handler, open("enrollments.txt","r") as enrollment_file_handler:
+        for line in courses_file_handler.readline():
+            course_information = line.split(",")
+            course_code = course_information[0]
+            course_name = course_information[1]
+            seats_available = course_information[2]
+                
+        
     return
 
 def drop_course():
@@ -101,20 +109,25 @@ def main():
         user_selection = input(f"Select an Option Between 1 - {len(options)}: ")
         match user_selection:
             case "1":
+                print("Please input the information in the following order: StudentID,Name,Contact")
                 add_new_student() 
             case "2":
+                print("Please input the information in the following order:Course ID,Course name, Seats Available")
                 add_new_course()
             case "3":
-                enrol_in_course()
+                course_name_or_id = input("Which Course would you like to enroll in?\nEnter the Course Name or the Course ID")
+                enrol_in_course(course_name_or_id )
             case "4":
                 drop_course()
-            case "5":
+                continue
                 view_available_course()
             case "6":
                 view_student_information()
-            case "7":
+            case "7"|"Exit":
                 print("Exiting ...")
                 break
+            case _:
+                print("Invalid Input!")
 
 #Call main function to run the program
 main()
