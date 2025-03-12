@@ -8,6 +8,9 @@ def add_course():
         course_id = input("Enter course id: ")
         if course_id.lower() == "back":
                 return
+        if not course_id:
+            print("Invalid ID,Please enter a valid course id")
+            continue
         if helper.course_id_exists(course_id, file_name):
             print("Course ID already exists. Please enter a different course id.")
         else:
@@ -15,6 +18,9 @@ def add_course():
 
     while True:
         course_name = input("Enter course name: ")
+        if not course_name:
+            print("Invalid name, Please enter a valid course name.")
+            continue
         if helper.course_name_exists(course_name, file_name):
             print("Course name already exists. Please enter a different course name.")
         else:

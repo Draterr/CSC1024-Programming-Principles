@@ -89,7 +89,7 @@ def course_name_exists(course_name, file_name):
     try:
         with open(file_name, "r", encoding="utf-8") as file:
             for line in file:
-                if len(line.split(",")) > 1 and course_name == line.split(",")[1].strip().lower():
+                if len(line.split(",")) > 1 and course_name.lower() == line.split(",")[1].strip().lower():
                     return True
     except:
         print(f"Failed to open {file_name}")

@@ -2,36 +2,42 @@ import helper
 
 def delete_course():
     file_name = "courses.txt"
+    courses = []
+
     try:
         with open(file_name, "r+", encoding="utf-8") as file:  #r+ means read and write
             print("Delete a course")
 
             print("Available courses:")
-            courses = []
             for line in file:
                 if not line.startswith("Course ID"): #same as edit_course, delete the first line
                     parts = line.strip().split(",")
                     if len(parts) == 4:
                         course_id, course_name, available_seats, course_seats = parts
                         courses.append(f"{course_id} - {course_name} ({available_seats}) ({course_seats})")
-    except:
-        print("Failed to open courses.txt")
+                        
+    except FileNotFoundError:
+        print("Error: courses.txt not found.")
+        return
+    except Exception as e:
+        print(f"Failed to open {file_name}: {e}")
+        return
 
-        if not courses:
-            print("No courses available to delete.")
-            return     #if no courses to delete then go to the main menu
+    if not courses:
+        print("No courses available to delete.")
+        return     #if no courses to delete then go to the main menu
         
-        for course in courses:
-            print(course)
+    for course in courses:
+        print(course)
 
-        while True:
-            course_id = input("Enter course id to delete or back to exit: ")
-            if course_id.lower() == "back":
-                return
-            if not helper.course_id_exists(course_id, file_name):
-                print("Course ID does not exist.")
-                continue
-            break
+    while True:
+        course_id = input("Enter course id to delete or back to exit: ")
+        if course_id.lower() == "back":
+            return
+        if not helper.course_id_exists(course_id, file_name):
+            print("Course ID does not exist.")
+            continue
+        break
 
     try:
         with open(file_name, "r", encoding="utf-8") as file:
