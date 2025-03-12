@@ -11,16 +11,16 @@ def delete_course():
             print("Available courses:")
             for line in file:
                 if not line.startswith("Course ID"): #same as edit_course, delete the first line
-                    parts = line.strip().split(",")
+                    parts = line.strip().split(",") #split id,name,available seats and maximum seats into 4 parts. 
                     if len(parts) == 4:
                         course_id, course_name, available_seats, course_seats = parts
                         courses.append(f"{course_id} - {course_name} ({available_seats}) ({course_seats})")
-                        
+
     except FileNotFoundError:
-        print("Error: courses.txt not found.")
+        print("Error: courses.txt not found.") #if user no courses.txt then will output this
         return
-    except Exception as e:
-        print(f"Failed to open {file_name}: {e}")
+    except:
+        print("Failed to open this file")
         return
 
     if not courses:
@@ -34,7 +34,8 @@ def delete_course():
         course_id = input("Enter course id to delete or back to exit: ")
         if course_id.lower() == "back":
             return
-        if not helper.course_id_exists(course_id, file_name):
+        if not helper.course_id_exists(course_id, file_name): 
+            #if user input exists course id then it will print Course ID does not exist and let user input again until id is not exists
             print("Course ID does not exist.")
             continue
         break
