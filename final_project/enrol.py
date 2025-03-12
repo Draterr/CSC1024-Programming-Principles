@@ -1,12 +1,53 @@
 import helper
 import datetime
 
-def enrol_in_course(student_id,course_id):
+def enrol_in_course():
     """
 
     This function will enrol a student to a course if they are eligible to be enrolled.
 
     """
+    course_id = ""
+    student_id = ""
+    while True:
+        try:
+            with open("courses.txt","r") as file:
+                content = file.readlines()
+                print("Course ID")
+                print("="*40)
+                for i in content:
+                    details = i.split(",")
+                    course_id = details[0]
+                    if course_id != "Course ID":
+                        print(f"{course_id:<7}")
+                print("="*40)
+        except:
+            print("Failed to open courses.txt")
+        #Ask the user for the Course ID
+        course_id = input("Which Course would you like to enroll in? Enter the Course ID: \n")
+
+        #Ensure that the Course_ID is of a probable length
+        if not helper.course_id_exists(course_id,"courses.txt"):
+            print("Course ID is not recorded! Please add it to the system")
+            continue
+        if len(course_id) > 20 or len(course_id) <= 0 : 
+            print("Invalid Course Id")
+            continue
+        else:
+            break
+    while True:
+        #Ask the user for their studentID
+        student_id = input("Enter your student ID: \n")
+
+        #Ensure that the student_ID is of a probable length
+        if not helper.student_id_exists(student_id,"students.txt"):
+            print("Student ID is not recorded! Please add it to the system")
+            continue
+        if len(student_id) > 9 or len(student_id) <= 0 :
+            print("Invalid Student Id")
+            continue
+        else:
+            break
     #first check whether the student is already enrolled to this course
     enroll_status = helper.check_if_student_is_enrolled(student_id,course_id)
 
@@ -34,9 +75,9 @@ def enrol_in_course(student_id,course_id):
         elif update_status == -1:
         #If update_status returns -1(Course not found), tell the user the course does not exist 
             return "[-] Courses not found"
+        elif update_status == -2:
+            return "[-] Failed to open enrollments.txt"
     #if the user is already enroll, tell the user they are already enrolled and exit the function
     else:
         return "[-] You are already enrolled"
     
-if __name__ == "__main__":
-    print(enrol_in_course("s24134156","CSC1024"))
