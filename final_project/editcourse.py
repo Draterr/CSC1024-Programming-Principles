@@ -14,7 +14,7 @@ def edit_course():
 
             for line in lines:
                 if not line.startswith("Course ID"):  #this is to skip the first line of the file which is the header
-                    parts = line.strip().split(",")
+                    parts = line.strip().split(",") #split the details inside course.txt into 4 parts.
                     if len(parts) == 4: #because have 4 fields in the courses.txt file so is parts == 4
                         course_id, course_name, available_seats, maximum_seats = parts #example: part[0] = course_id, part[1] = course_name, part[2] = available_seats, part[3] = maximum_seats
                         courses.append(f"{course_id} - {course_name} ({available_seats}) ({maximum_seats})")
@@ -31,13 +31,13 @@ def edit_course():
         print("No courses available to edit.")
         return
 
-    for course in courses:
+    for course in courses: #if course available then print out
         print(course)
 
     # Select course to edit
     while True:
         course_id = input("Enter course ID to edit or 'back' to exit: ").strip()
-        if course_id.lower() == "back":
+        if course_id.lower() == "back": #user enter back can back to main menu.
             return
         if not helper.course_id_exists(course_id, file_name): #check course_id is inside the file or not
             print("Course ID does not exist. Try again.")
@@ -64,7 +64,7 @@ def edit_course():
             available_seats = parts[2]
             max_seats = parts[3]
             break
-
+    print('-' * 40)
     print(f"Course ID: {original_course_id}")
     print(f"Course Name: {course_name}")
     print(f"Available Seats: {available_seats}")
@@ -84,20 +84,20 @@ def edit_course():
         if field_to_edit == "1":
             while True:
                 new_course_id = input("Enter new course ID: ").strip()
-                if not new_course_id:
+                if not new_course_id: #if user not enter anything then it will run this code
                     print("Invalid ID,Please enter again.")
                     continue
-                if helper.course_id_exists(new_course_id, file_name):
+                if helper.course_id_exists(new_course_id, file_name): #check if the course id that user input is exist or not.
                     print("Course ID already exists. Please enter a different course ID.")
                 else:
                     break
-            parts[0] = new_course_id  
+            parts[0] = new_course_id  #save new id into parts[0]
             break
 
         elif field_to_edit == "2":
             while True:
                 new_course_name = input("Enter new course name: ").strip()
-                if not new_course_name:
+                if not new_course_name: #same as course id
                     print("Invalid Name,Please enter again.")
                     continue
                 if helper.course_name_exists(new_course_name, file_name):
@@ -111,11 +111,11 @@ def edit_course():
             while True:
                 try:
                     new_course_seats = int(input("Enter new available seats: ").strip())
-                    if new_course_seats > int(max_seats):
-                        print("Available seats cannot be greater than maximum seats.")
+                    if new_course_seats > int(max_seats): #check available seats is higher than maximum seats or not.
+                        print("Available seats cannot be greater than maximum seats.") #if yes then print this
                         continue
                     break
-                except ValueError:
+                except ValueError: #if user didn't enter a integer then it will run this code
                     print("Please enter a valid number.")
             parts[2] = str(new_course_seats)
             break
@@ -124,19 +124,19 @@ def edit_course():
             while True:
                 try:
                     new_max_seats = int(input("Enter new maximum seats: ").strip())
-                    if new_max_seats < int(available_seats):
-                        print("Maximum seats can't be smaller than available seats.")
+                    if new_max_seats < int(available_seats): #check maximum seats is smaller than available seats or not
+                        print("Maximum seats can't be smaller than available seats.") #if yes then print this
                         continue
                     break
-                except ValueError:
+                except ValueError: #same as available seats.
                     print("Enter a valid number.")
             parts[3] = str(new_max_seats)
             break
 
-        elif field_to_edit == "5":
+        elif field_to_edit == "5": #user choose back so return to main menu.
             return
         else:
-            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.")
+            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.") #if user not input 1-5 then will print this.
             continue
 
     # Update the file content
@@ -148,9 +148,9 @@ def edit_course():
     #if no this code then it will not update new data to the file
 
     try:
-        with open(file_name, "w", encoding="utf-8") as file:
+        with open(file_name, "w", encoding="utf-8") as file: 
             file.writelines(lines) 
             #write the new data to the file
         print("Course updated successfully.")
-    except Exception as e:
-        print(f"Failed to update the course file: {e}")
+    except:
+        print("Failed to open this file")
