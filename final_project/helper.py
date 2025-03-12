@@ -22,10 +22,10 @@ def check_if_student_is_enrolled(student_id,course_id):
                 #then we've identified that the student is currently enrolled
                 if enrolled_student_id == student_id and current_course_id == course_id and enrollment_status.strip() == "Active":
                     return True
+            #No record found return False
+            return False
     except:
         print("Failed to open enrollments.txt")
-        #No record found return False
-        return False
 
 def update_course_availability(course_id,number):
     """
@@ -43,37 +43,37 @@ def update_course_availability(course_id,number):
     except:
         print("Failed to open courses.txt")
         
-        #Iterate over each lines,skipping through the header(temp_memory[0]) to look for a matching course ID 
-        for course_information in range(1,len(temp_memory)):
+    #Iterate over each lines,skipping through the header(temp_memory[0]) to look for a matching course ID 
+    for course_information in range(1,len(temp_memory)):
 
-            #the information are stored in a csv format so we delimit each line by ","
-            details = temp_memory[course_information].split(",")
-            current_course_id = details[0]
-            course_name = details[1]
-            available_seats = int(details[2])
-            maximum_seats = int(details[3])
+        #the information are stored in a csv format so we delimit each line by ","
+        details = temp_memory[course_information].split(",")
+        current_course_id = details[0]
+        course_name = details[1]
+        available_seats = int(details[2])
+        maximum_seats = int(details[3])
 
-            #Check if the course exists by checking if that course_id exists
-            #if we find a match we will either increment the available seats(add +1) or decrement(add -1)
-            #We need to ensure that we don't decrement till negative and we don't increment above the maximum amount of seats
-            if course_id == current_course_id:
-                    if (number == -1 and available_seats != 0) or (number == 1 and available_seats < maximum_seats):
-                        available_seats += number
-                        #Update the temp_memory list with the new amount of available seats
-                        new_info = f"{current_course_id},{course_name},{available_seats},{maximum_seats}\n"
-                        temp_memory[course_information] = new_info
-                        #Overwrite the old courses.txt with a new courses.txt file with the update available seats information for that course
-                        try:
-                            with open("courses.txt","w") as new_file_handler:
-                                new_file_handler.writelines(temp_memory)
-                            return 1 #"Successfully Enrolled to {course_id}/Successfully Dropped course"
-                        except:
-                            print("Failed to open courses.txt")
-                            return -2 #Failed to open file
-                    else:
-                        return 0 #"The course is full"
+        #Check if the course exists by checking if that course_id exists
+        #if we find a match we will either increment the available seats(add +1) or decrement(add -1)
+        #We need to ensure that we don't decrement till negative and we don't increment above the maximum amount of seats
+        if course_id == current_course_id:
+                if (number == -1 and available_seats != 0) or (number == 1 and available_seats < maximum_seats):
+                    available_seats += number
+                    #Update the temp_memory list with the new amount of available seats
+                    new_info = f"{current_course_id},{course_name},{available_seats},{maximum_seats}\n"
+                    temp_memory[course_information] = new_info
+                    #Overwrite the old courses.txt with a new courses.txt file with the update available seats information for that course
+                    try:
+                        with open("courses.txt","w") as new_file_handler:
+                            new_file_handler.writelines(temp_memory)
+                        return 1 #"Successfully Enrolled to {course_id}/Successfully Dropped course"
+                    except:
+                        print("Failed to open courses.txt")
+                        return -2 #Failed to open file
+                else:
+                    return 0 #"The course is full"
 
-        return -1 #"Courses not found"
+    return -1 #"Courses not found"
 
 def course_id_exists(course_id, file_name):
     try:

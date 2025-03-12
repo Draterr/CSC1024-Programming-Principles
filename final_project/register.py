@@ -1,4 +1,5 @@
 import os 
+import view_available_courses
 import display_student_list
 import helper
 import enrol
@@ -76,18 +77,14 @@ def main():
             #If the user chooses to enroll in a course(Option  3)
             case "3":
                 #Invoke the enrol_in_course function with the user input
-                enrollment_status = enrol.enrol_in_course()
-                #display the result
-                print(enrollment_status)
+                enrol.enrol_in_course()
                 continue
             case "4":
                 #Invoke the drop_course function with the user input
-                enrollment_status = drop.drop_course()
-
-                #display the result
-                print(enrollment_status)
+                drop.drop_course()
                 continue
             case "5":
+                view_available_courses.view_available_courses()
                 continue
             case "6":
                 display_student_list.display_student()

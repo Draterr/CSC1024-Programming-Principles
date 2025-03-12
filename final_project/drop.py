@@ -9,7 +9,7 @@ def drop_course():
     """
     while True:
         #Ask the user for the Course ID
-        course_id = input("Which Course would you like to drop? Enter the Course ID: \n")
+        course_id = input("\nWhich Course would you like to drop? Enter the Course ID: \n")
 
         #ensure that the course exists in our system
         if not helper.course_id_exists(course_id,"courses.txt"):
@@ -52,7 +52,7 @@ def drop_course():
 
                     #validate that enrollments.txt has data
                     if len(temp_memory) < 2:
-                        return "[-] There are no enrollment data"
+                        print("[-] There are no enrollment data")
 
                     #iterate over each line in the enrollments.txt file, skipping over the header(temp_memory[0])
                     for line in range(1,len(temp_memory)):
@@ -82,13 +82,13 @@ def drop_course():
                             try:
                                 with open("enrollments.txt","w") as new_file_handler:
                                     new_file_handler.writelines(temp_memory)
-                                return f"[+] Successfully Dropped Course {course_id}"
+                                print(f"[+] Successfully Dropped Course {course_id}")
                             except:
                                 print("Failed to open enrollments.txt file")
             except:
                     print("Failed to open enrollments.txt file")
         #If the course is not found
         elif update_status == -1:
-            return "[-] Courses not found"
+            print("[-] Courses not found")
         elif update_status == -2:
-            return "[-] Failed to open enrollments.txt file"
+            print("[-] Failed to open enrollments.txt file")
