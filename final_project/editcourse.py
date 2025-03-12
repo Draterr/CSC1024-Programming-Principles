@@ -99,5 +99,5 @@ def edit_course():
 
         with open(file_name, "w", encoding="utf-8") as file:
             file.writelines(lines)
-
+#hi
         print("Course updated successfully.")
