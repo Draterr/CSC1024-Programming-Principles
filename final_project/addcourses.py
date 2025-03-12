@@ -37,8 +37,11 @@ def add_course():
         else:
             break
 
-    with open(file_name, "a", encoding="utf-8") as file:
-        file.write(f"{course_id},{course_name},{available_seats},{course_seats}\n")
+    try:
+        with open(file_name, "a", encoding="utf-8") as file:
+            file.write(f"{course_id},{course_name},{available_seats},{course_seats}\n")
+    except:
+        print("Failed to open courses.txt file")
 
     print("Course added successfully.")
 
