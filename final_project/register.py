@@ -1,5 +1,6 @@
 import os 
 import view_available_courses
+import add_new_student
 import display_student_list
 import helper
 import enrol
@@ -29,13 +30,9 @@ The system maintains records of students, courses, and enrollments.
 
 def main():
     """
+
     A main function to encapsulate the whole program into one function.
 
-    By encapsulating all the functions into the main function, the execution flow is easier to follow and functions can be sepearated easily,
-    easing the debugging process.
-
-    By centralising all the variables definition, all the variables are visible within the main function,the code can be modified easily,
-    and by defining variables in the main function and passing it as an arugment to the function, we improve the reusability of the functions.
     """
 
     #nested list for the filename of the file to be created and the header of that file
@@ -67,20 +64,18 @@ def main():
     while user_selection != "9":
         #prompt user for selection, the number of options is dynamic, it changes depending on the size of the options nested list
         user_selection = input(f"\nSelect an Option Between 1 - {len(options)} or type help to display the menu: ")
+        if not user_selection.isdigit():
+            user_selection = user_selection.lower()
         match user_selection:
             case "1":
-                print("Please Enter the information in the following order: StudentID,Name,Contact")
+                add_new_student.register_student()
             case "2":
-                print("Please Enter the information in the following order:Course ID,Course name, Seats Available,Maximum Seats")
                 addcourses.add_course()
                 continue
-            #If the user chooses to enroll in a course(Option  3)
             case "3":
-                #Invoke the enrol_in_course function with the user input
                 enrol.enrol_in_course()
                 continue
             case "4":
-                #Invoke the drop_course function with the user input
                 drop.drop_course()
                 continue
             case "5":
@@ -95,11 +90,12 @@ def main():
             case "8":
                 deletecourse.delete_course()
                 continue
-            case "9"|"Exit":
+            case "9"|"exit":
                 print("Exiting ...")
                 break
-            case "help"|"HELP"|"Help":
+            case "help":
                 helper.display_menu(title,options)
+                continue 
             case _:
             #If the user enters anything that is not a valid option
                 print("Invalid Selection!")

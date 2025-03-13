@@ -9,7 +9,9 @@ def drop_course():
     """
     while True:
         #Ask the user for the Course ID
-        course_id = input("\nWhich Course would you like to drop? Enter the Course ID: \n")
+        course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'B' to back: \n")
+        if course_id.upper() == 'B':
+            return
 
         #ensure that the course exists in our system
         if not helper.course_id_exists(course_id,"courses.txt"):
@@ -24,7 +26,9 @@ def drop_course():
 
     #Ask the user for their studentID
     while True:
-        student_id = input("Enter your student ID: \n")
+        student_id = input("Enter your student ID or 'B' to back: \n")
+        if course_id.upper() == 'B':
+            return
         #ensure that the student id exists in our system
         if not helper.student_id_exists(student_id,"students.txt"):
             print("Student ID is not recorded! Please add it to the system!")
