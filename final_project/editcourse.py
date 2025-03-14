@@ -2,6 +2,7 @@ import helper
 
 def edit_course():
     file_name = "courses.txt"
+    enrollment_file = "enrollments.txt"
 
     # Read course file safely
     try:
@@ -22,8 +23,8 @@ def edit_course():
     except FileNotFoundError:
         print("Failed to open courses.txt. File not found.")
         return
-    except Exception as e:
-        print(f"An error occurred while reading the file: {e}")
+    except:
+        print("Failed to open enrollments.txt")
         return
 
     # If no courses available
@@ -44,6 +45,20 @@ def edit_course():
             continue
         break
 
+    enrolled_students = 0
+    try:
+        with open(enrollment_file, "r", encoding="utf-8") as file:
+            for line in file:
+                data = line.strip().split(",")
+                if len(data) >= 4:
+                    enrolled_course_id = data[1] #check course id and enrolled course id is same or not
+                    enrollment_status = data[3].strip().lower() #check status is active or not.
+                    if enrolled_course_id == course_id and enrollment_status == "active":
+                        enrolled_students += 1 
+                        #check how many students are enrolled this course.
+    except FileNotFoundError:
+        print("Warning: enrollments.txt not found. Cannot check enrollments.")
+
     # Find the course in file
     for i, line in enumerate(lines):
         #this code is find which line is the course_id that user want to edit 
@@ -54,7 +69,8 @@ def edit_course():
         if line = "MTH202,Mathematics,20,25\n"
         parts = line.strip().split(",")
         strip = "MTH202,Mathematics,20,25" delete the space in the front and back
-        split = ["MTH202","Mathematics","20","25"] use , to split the string                example:
+        split = ["MTH202","Mathematics","20","25"] use , to split the string                
+        example:
         parts[0] = "MTH202"
         parts[1] = "Mathematics"
         '''
@@ -69,6 +85,7 @@ def edit_course():
     print(f"Course Name: {course_name}")
     print(f"Available Seats: {available_seats}")
     print(f"Maximum Seats: {max_seats}")
+    print(f"Currently Enrolled Students: {enrolled_students}")
 
     # Editing options
     while True:
@@ -111,6 +128,15 @@ def edit_course():
             while True:
                 try:
                     new_course_seats = int(input("Enter new available seats: ").strip())
+
+                    if new_course_seats > (int(max_seats) - int(enrolled_students)) and enrolled_students != 0:
+                        print(f'That is {enrolled_students} students enrolled this courses, so it must be {enrolled_students} lower than {max_seats}')
+                        continue #new_course_Seats cannot be smaller than max seats - enrolled student.
+
+                    if new_course_seats < enrolled_students:
+                        print(f"Error: Available seats cannot be lower than {enrolled_students} (currently enrolled students).")
+                        continue
+
                     if new_course_seats > int(max_seats): #check available seats is higher than maximum seats or not.
                         print("Available seats cannot be greater than maximum seats.") #if yes then print this
                         continue
@@ -124,13 +150,20 @@ def edit_course():
             while True:
                 try:
                     new_max_seats = int(input("Enter new maximum seats: ").strip())
+
+                    if new_max_seats < enrolled_students:
+                        print(f"Error: Maximum seats cannot be lower than {enrolled_students} (currently enrolled students).") #check maximum seats is greater then enrolled student or not.
+                        continue 
+
                     if new_max_seats < int(available_seats): #check maximum seats is smaller than available seats or not
                         print("Maximum seats can't be smaller than available seats.") #if yes then print this
                         continue
                     break
                 except ValueError: #same as available seats.
                     print("Enter a valid number.")
-            parts[3] = str(new_max_seats)
+            new_course_seats = (int(new_max_seats) - int(enrolled_students)) #new max seats will also change new available seats so if enrolled student = 2 maximum = 2 then available = 0
+            parts[2] = str(new_course_seats)
+            parts[3] = str(new_max_seats) 
             break
 
         elif field_to_edit == "5": #user choose back so return to main menu.

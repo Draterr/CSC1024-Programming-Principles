@@ -2,6 +2,8 @@ import helper
 
 def delete_course():
     file_name = "courses.txt"
+    enrollment_file = "enrollments.txt"
+
     courses = []
 
     try:
@@ -19,7 +21,7 @@ def delete_course():
     except FileNotFoundError:
         print("Error: courses.txt not found.") #if user no courses.txt then will output this
         return
-    except:
+    except:  #if file is not exist or no permission to open then will error.
         print("Failed to open this file")
         return
 
@@ -28,7 +30,7 @@ def delete_course():
         return     #if no courses to delete then go to the main menu
         
     for course in courses:
-        print(course)
+        print(course) #print every course id and details to let user see.
 
     while True:
         course_id = input("Enter course id to delete or back to exit: ")
@@ -38,12 +40,30 @@ def delete_course():
             #if user input exists course id then it will print Course ID does not exist and let user input again until id is not exists
             print("Course ID does not exist.")
             continue
-        break
+        
+        try:
+            with open(enrollment_file, "r", encoding="utf-8") as file:
+                for line in file:
+                    data = line.strip().split(",")
+                    if len(data) >= 4:
+                        enrolled_course_id = data[1]
+                        enrollment_status = data[3].strip().lower()  # Extract "Active" or "Dropped"
+                        if enrolled_course_id == course_id and enrollment_status == "active":
+                            print("This course has enrolled students and cannot be deleted.") #all this code is checking courses have enrolled students or not if yes then cannot be deleted
+                            return
+        except FileNotFoundError:
+            print("Error: enrollments.txt not found. Cannot check enrollments.")
+            return
+        except:
+            print("Failed to open enrollments.txt")
+            return
+        
+        break  # If the course exists and has no enrolled students, proceed to delete it.
 
     try:
         with open(file_name, "r", encoding="utf-8") as file:
-            lines = file.readlines()
-    except:
+            lines = file.readlines() #open course.txt read every line and store them in a list.
+    except: #if file is not exist or no permission to open then will error.
         print("Failed to open courses.txt")
 
     try:
@@ -53,7 +73,7 @@ def delete_course():
                     #if the course_id is not the same as the user input then write the line to the file
                     #if the course id is the same as the user input then it will not write the line to the file thats means delete the line
                     file.write(line)
-    except:
+    except: #if file is not exist or no permission to open then will error.
         print("Failed to open courses.txt")
 
     print("Course deleted successfully.")
