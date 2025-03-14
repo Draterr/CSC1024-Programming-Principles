@@ -15,8 +15,9 @@ Course Registration System
 This program allows students to:
 - Enroll in courses
 - Drop courses
-- View their enrollment history
 - View available courses
+- Delete courses
+- Edit courses
 - Add new students to the system
 - Add new course to the system
 - View Student Information
@@ -61,11 +62,15 @@ def main():
     while user_selection != "9":
         #prompt user for selection, the number of options is dynamic, it changes depending on the size of the options nested list
         user_selection = input(f"\nSelect an Option Between 1 - {len(options)} or type help to display the menu: ")
+
+        #check if the user entered a word
         if not user_selection.isdigit():
             user_selection = user_selection.lower()
+        #based on the option the user chooses we invoke diffrent functions
         match user_selection:
             case "1":
                 add_new_student.register_student()
+                continue
             case "2":
                 addcourses.add_course()
                 continue
@@ -94,7 +99,7 @@ def main():
                 helper.display_menu(title,options)
                 continue 
             case _:
-            #If the user enters anything that is not a valid option
+                #If the user enters anything that is not a valid option
                 print("Invalid Selection!")
                 continue
 
