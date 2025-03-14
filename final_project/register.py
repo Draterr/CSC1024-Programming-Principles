@@ -1,4 +1,3 @@
-import os 
 import view_available_courses
 import add_new_student
 import display_student_list
@@ -6,10 +5,8 @@ import helper
 import enrol
 import deletecourse
 import editcourse 
-import enrolhistory
 import drop 
 import addcourses
-import datetime
 
 """
 
