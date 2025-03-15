@@ -27,7 +27,7 @@ def enrol_in_course():
 
             #Ask the user for the Course ID
             course_id = input("Which Course would you like to enroll in? Enter the Course ID or 'back' to exit: \n")
-            if course_id.lower() == 'back':
+            if course_id.strip().lower() == 'back':
                 return
 
             #Ensure that the Course_ID is of a probable length
@@ -39,18 +39,15 @@ def enrol_in_course():
                 continue
             else:
                 break
-        selection = ""
         while True:
             #Ask the user for their studentID
             student_id = input("Enter your student ID or 'back' to exit: \n")
-            if student_id.lower() == 'back':
+            if student_id.strip().lower() == 'back':
                 return
             #ensure that the student id exists in our records
             if not helper.student_id_exists(student_id,"students.txt"):
                 print("Student ID is not recorded! Please add it to the system")
-                selection = input("\nPress B to go back or enter to re-enter your student id: ")
-                if selection.lower() == "b":
-                    return
+                continue
             else:
                 #Ensure that the student_ID is of a probable length
                 if len(student_id) > 9 or len(student_id) <= 0 :
