@@ -35,11 +35,11 @@ def add_course():
 
     while True: #fourth loop
         course_seats = input("Enter maximum course seats: ") 
-        if available_seats > course_seats: #max seats must be greater or equal to available seats.
-            print("The amount of available seats can't be greater than the maximum amount of seats.")
-            continue #if max seats not greater or equal to availble seats then let user enter input again.
         if not course_seats.isdigit(): #input not a digit then print invalid number then let user enter again.
             print("Please enter a valid number.")
+        if int(available_seats) > int(course_seats): #max seats must be greater or equal to available seats.
+            print("The amount of available seats can't be greater than the maximum amount of seats.")
+            continue #if max seats not greater or equal to availble seats then let user enter input again.
         else:
             break #if input is digit and max seats is greater or equal to availble seats then exit the loop.
 

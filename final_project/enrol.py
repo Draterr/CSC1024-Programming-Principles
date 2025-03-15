@@ -24,6 +24,7 @@ def enrol_in_course():
                     print("="*40)
             except:
                 print("Failed to open courses.txt")
+
             #Ask the user for the Course ID
             course_id = input("Which Course would you like to enroll in? Enter the Course ID or 'back' to exit: \n")
             if course_id.lower() == 'back':
