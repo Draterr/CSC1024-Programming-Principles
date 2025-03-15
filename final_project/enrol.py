@@ -14,6 +14,10 @@ def enrol_in_course():
             try:
                 with open("courses.txt","r") as file:
                     content = file.readlines()
+                    if len(content) < 2:
+                        print("courses.txt has no records!\n")
+                        print("Please add a course to the system!")
+                        return
                     print("Course ID")
                     print("="*40)
                     for i in content:
@@ -24,6 +28,7 @@ def enrol_in_course():
                     print("="*40)
             except:
                 print("Failed to open courses.txt")
+                return
 
             #Ask the user for the Course ID
             course_id = input("Which Course would you like to enroll in? Enter the Course ID or 'back' to exit: \n")

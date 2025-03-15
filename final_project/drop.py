@@ -10,6 +10,16 @@ def drop_course():
     while True:
         while True:
             #Ask the user for the Course ID
+            try:
+                with open("courses.txt","r") as file:
+                    content = file.readlines()
+                    if len(content) < 2:
+                        print("courses.txt has no records!\n")
+                        print("Please add a course to the system!")
+                        return
+            except:
+                print("Failed to open courses.txt")
+                return
             course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'B' to back: \n")
             if course_id.strip().upper() == 'B':
                 return

@@ -75,6 +75,43 @@ def update_course_availability(course_id,number):
 
     return -1 #"Courses not found"
 
+def get_enrolled_student_count(course_id):
+    try:
+        count = 0
+        with open("enrollments.txt","r") as file:
+            content = file.readlines()
+            for line in content:
+                details = line.strip().split(",")
+                current_course_id = details[1]
+                enrollment_status = details[3].strip()
+                if current_course_id ==  course_id and enrollment_status == 'Active':
+                        count += 1
+        return count
+    except Exception as e:
+        print(f"Error occured while opening enrollments.txt {e}")
+def update_course_id(old_course_id,new_course_id):
+    try:
+        with open("enrollments.txt","r") as file:
+            content = file.readlines()
+            for index,line in enumerate(content):
+                details = line.strip().split(",")
+                student_id = details[0]
+                course_id = details[1]
+                enrollment_information = details[2]
+                enrollment_status = details[3]
+                if course_id == old_course_id:
+                    new_line = f"{student_id},{new_course_id},{enrollment_information},{enrollment_status}\n"
+                    content[index] = new_line
+            try:
+                with open("enrollments.txt","w") as file:
+                    file.writelines(content)
+                print("[+] course ID has been updated!")
+            except Exception as e:
+                print(f"Error when opening enrollments.txt {e}")
+
+    except Exception as e:
+        print(f"Error when opening enrollments.txt {e}")
+
 def course_id_exists(course_id, file_name):
     try:
         with open(file_name, "r", encoding="utf-8") as file:
@@ -89,7 +126,7 @@ def course_name_exists(course_name, file_name):
     try:
         with open(file_name, "r", encoding="utf-8") as file:
             for line in file:
-                if len(line.split(",")) > 1 and course_name.lower() == line.split(",")[1].strip().lower():
+                if len(line.split(",")) > 1 and course_name.strip() == line.split(",")[1].strip():
                     return True
     except:
         print(f"Failed to open {file_name}")

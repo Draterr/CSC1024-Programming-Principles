@@ -38,6 +38,8 @@ def edit_course():
     # Select course to edit
     while True:
         course_id = input("Enter course ID to edit or 'back' to exit: ").strip()
+        if not course_id:
+                print("Invalid ID,Please enter again.")
         if course_id.lower() == "back": #user enter back can back to main menu.
             return
         if not helper.course_id_exists(course_id, file_name): #check course_id is inside the file or not
@@ -109,6 +111,17 @@ def edit_course():
                 else:
                     break
             parts[0] = new_course_id  #save new id into parts[0]
+            while True:
+                if_update = input("This action will update all enrollment records with the same course ID to the new course ID? (Y/N): ")
+                if_update = if_update.strip().upper()
+                if  if_update == 'Y':
+                    helper.update_course_id(course_id,new_course_id)
+                    break
+                elif if_update == 'N':
+                    break
+                else:
+                    print("Invalid Input! Please input Y or N")
+
             break
 
         elif field_to_edit == "2":
@@ -127,8 +140,25 @@ def edit_course():
         elif field_to_edit == "3":
             while True:
                 try:
+                    if_has_enrolled = False
+                    with open(enrollment_file, "r", encoding="utf-8") as file:
+                        for line in file:
+                            data = line.strip().split(",")
+                            if len(data) >= 4:
+                                enrolled_course_id = data[1]
+                                enrollment_status = data[3].strip().lower()  # Extract "Active" or "Dropped"
+                                if enrolled_course_id == course_id and enrollment_status == "active":
+                                    print("This course has enrolled students and available seats cannot be edited.\n") #all this code is checking courses have enrolled students or not if yes then cannot be deleted
+                                    if_has_enrolled = True
+                        if if_has_enrolled:
+                            break
+                except Exception as e:
+                    print(f"Failed to open enrollments.txt {e}")
+                try:
                     new_course_seats = int(input("Enter new available seats: ").strip())
-
+                    enrolled_students_count = helper.get_enrolled_student_count(course_id)
+                    if new_course_seats != int(max_seats) - enrolled_students_count:
+                        print(f"There are {enrolled_students_count} students enrolled")
                     if new_course_seats > (int(max_seats) - int(enrolled_students)) and enrolled_students != 0:
                         print(f'That is {enrolled_students} students enrolled this courses, so it must be {enrolled_students} lower than {max_seats}')
                         continue #new_course_Seats cannot be smaller than max seats - enrolled student.
@@ -140,11 +170,10 @@ def edit_course():
                     if new_course_seats > int(max_seats): #check available seats is higher than maximum seats or not.
                         print("Available seats cannot be greater than maximum seats.") #if yes then print this
                         continue
+                    parts[2] = str(new_course_seats)
                     break
                 except ValueError: #if user didn't enter a integer then it will run this code
                     print("Please enter a valid number.")
-            parts[2] = str(new_course_seats)
-            break
 
         elif field_to_edit == "4":
             while True:
