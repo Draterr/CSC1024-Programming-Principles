@@ -5,9 +5,15 @@ def add_course():
     file_name = "courses.txt"
 
     while True:
-        course_id = input("Enter course id: ")
+        course_id = input("Enter course id or 'back' to exit: ")
         if course_id.lower() == "back": #allow user to exit when enter 'back'
                 return
+        if not course_id.strip().isalnum():
+            print("course id cannot contain special characters! Please Try Again!")
+            continue
+        if len(course_id) > 10:
+            print("Course ID must be with in 10 characters")
+            continue
         if not course_id: #if the input is empty then print invalid id and let user enter again.
             print("Invalid ID,Please enter a valid course id")
             continue
@@ -17,9 +23,14 @@ def add_course():
             break #valid input and not exist then exit loop
 
     while True: #second loop 
-        course_name = input("Enter course name: ")
+        course_name = input("Enter course name or 'back' to exit: ")
+        if course_name.lower() == 'back':
+            return
         if not course_name: #if input is empty then print invalid name then let user enter again.
             print("Invalid name, Please enter a valid course name.")
+            continue
+        if not course_name.strip().replace(" ","").isalnum():
+            print("Input cannot contain special characters! Please Try Again!")
             continue
         if helper.course_name_exists(course_name, file_name): #check course name is exists or not.
             print("Course name already exists. Please enter a different course name.")
@@ -27,7 +38,9 @@ def add_course():
             break #if input is valid and not exist then exit the loop
 
     while True: #third loop
-        available_seats = input("Enter available course seats: ")
+        available_seats = input("Enter available course seats or 'back' to exit: ")
+        if available_seats.lower() == 'back':
+            return
         if not available_seats.isdigit(): #if input is not digit then is invalid input,let user enter again.
             print("Please enter a valid number.")
         else:
@@ -35,6 +48,8 @@ def add_course():
 
     while True: #fourth loop
         course_seats = input("Enter maximum course seats: ") 
+        if course_seats.lower() == 'back':
+            return
         if not course_seats.isdigit(): #input not a digit then print invalid number then let user enter again.
             print("Please enter a valid number.")
         if int(available_seats) > int(course_seats): #max seats must be greater or equal to available seats.

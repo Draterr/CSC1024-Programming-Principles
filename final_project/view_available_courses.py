@@ -17,9 +17,9 @@ def view_available_courses():
         print("Available Courses:")
         
 #print separator line to separate the details neatly and insert the column headers
-        print("-" * 70)
-        print(f"{'Course ID':<10}{'Course Name':<30}{'Available Seats':<16}{'Maximum Seats':<20}")
-        print("-" * 70)
+        print("-" * 115)
+        print(f"{'Course ID':<20}{'Course Name':<50}{'Available Seats':<16}{'Maximum Seats':<20}")
+        print("-" * 115)
         
 #.strip() is used to avoid any unnecessary spaces or newline characters
         for course in courses:
@@ -33,7 +33,7 @@ def view_available_courses():
                 course_name = course_data[1]  
                 available_seats = course_data[2]  
                 maximum_seats = course_data[3]  
-                print(f"{course_id:<10}{course_name:<30}{available_seats:<16}{maximum_seats:<20}")  
+                print(f"{course_id:<20}{course_name:<50}{available_seats:<16}{maximum_seats:<20}")  
             else:
                 print("ERROR:Invalid format for course data in 'courses.txt'.")#print error when the course data format is wrong
     except FileNotFoundError:

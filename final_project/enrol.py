@@ -18,7 +18,7 @@ def enrol_in_course():
                         print("courses.txt has no records!\n")
                         print("Please add a course to the system!")
                         return
-                    print("Course ID")
+                    print("\nCourse ID")
                     print("="*40)
                     for i in content:
                         details = i.split(",")

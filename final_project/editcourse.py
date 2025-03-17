@@ -38,6 +38,9 @@ def edit_course():
     # Select course to edit
     while True:
         course_id = input("Enter course ID to edit or 'back' to exit: ").strip()
+        if not course_id.strip().isalnum():
+            print("course ID cannot contain special characters! Please Try Again!")
+            continue
         if not course_id:
                 print("Invalid ID,Please enter again.")
         if course_id.lower() == "back": #user enter back can back to main menu.
@@ -103,6 +106,9 @@ def edit_course():
         if field_to_edit == "1":
             while True:
                 new_course_id = input("Enter new course ID: ").strip()
+                if not new_course_id.strip().isalnum():
+                    print("course ID cannot contain special characters! Please Try Again!")
+                    continue
                 if not new_course_id: #if user not enter anything then it will run this code
                     print("Invalid ID,Please enter again.")
                     continue
@@ -127,6 +133,9 @@ def edit_course():
         elif field_to_edit == "2":
             while True:
                 new_course_name = input("Enter new course name: ").strip()
+                if not new_course_name.strip().isalnum():
+                    print("course ID cannot contain ','! Please Try Again!")
+                    continue
                 if not new_course_name: #same as course id
                     print("Invalid Name,Please enter again.")
                     continue
