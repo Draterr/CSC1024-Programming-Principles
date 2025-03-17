@@ -20,8 +20,8 @@ def drop_course():
             except:
                 print("Failed to open courses.txt")
                 return
-            course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'B' to back: \n")
-            if course_id.strip().upper() == 'B':
+            course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'back' to back: \n")
+            if course_id.strip().lower() == 'back':
                 return
 
             #ensure that the course exists in our system
@@ -37,8 +37,8 @@ def drop_course():
 
         #Ask the user for their studentID
         while True:
-            student_id = input("Enter your student ID or 'B' to back: \n")
-            if student_id.strip().upper() == 'B':
+            student_id = input("Enter your student ID or 'back' to back: \n")
+            if student_id.strip().lower() == 'back':
                 return
             #ensure that the student id exists in our system
             if not helper.student_id_exists(student_id,"students.txt"):
@@ -79,7 +79,7 @@ def drop_course():
                             current_student_id = details[0]
                             current_course_id = details[1]
                             #Remove the trailing "/-" placeholder previously for non existent dropped date
-                            enrollment_date = details[2].rstrip("/-")
+                            enrollment_date = details[2].strip().rstrip("/ -")
                             enrollment_status = details[3]
 
                             #check if the current line's course_id,student_id is the same as the user provided one,
@@ -89,6 +89,7 @@ def drop_course():
                                 enrollment_status = "Dropped"
 
                                 #Reconstruct the line with the new status
+                                print(enrollment_date)
                                 new_info = f"{current_student_id},{current_course_id},{enrollment_date} / {datetime.date.today()},{enrollment_status}\n" 
 
                                 #update the old file contents with the new line

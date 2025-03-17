@@ -134,7 +134,7 @@ def edit_course():
             while True:
                 new_course_name = input("Enter new course name: ").strip()
                 if not new_course_name.strip().isalnum():
-                    print("course ID cannot contain ','! Please Try Again!")
+                    print("course ID cannot contain special characters! Please Try Again!")
                     continue
                 if not new_course_name: #same as course id
                     print("Invalid Name,Please enter again.")
