@@ -124,7 +124,8 @@ def edit_course():
                     helper.update_course_id(course_id,new_course_id)
                     break
                 elif if_update == 'N':
-                    break
+                    print("The course ID was not updated!")
+                    return
                 else:
                     print("Invalid Input! Please input Y or N")
 
@@ -133,7 +134,7 @@ def edit_course():
         elif field_to_edit == "2":
             while True:
                 new_course_name = input("Enter new course name: ").strip()
-                if not new_course_name.strip().isalnum():
+                if not new_course_name.strip().replace(" ","").isalnum():
                     print("course ID cannot contain special characters! Please Try Again!")
                     continue
                 if not new_course_name: #same as course id

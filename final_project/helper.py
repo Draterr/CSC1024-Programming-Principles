@@ -105,7 +105,7 @@ def update_course_id(old_course_id,new_course_id):
             try:
                 with open("enrollments.txt","w") as file:
                     file.writelines(content)
-                print("[+] course ID has been updated!")
+                print("[+] course ID have been updated!")
             except Exception as e:
                 print(f"Error when opening enrollments.txt {e}")
 
