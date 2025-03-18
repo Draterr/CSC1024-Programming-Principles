@@ -33,6 +33,10 @@ def main():
 
     """
 
+
+    #========================================================================================================
+                                    #INITAL DATA PREPARATION
+    #========================================================================================================
     #nested list for the filename of the file to be created and the header of that file
     #inner list consists of [{filename},{file_header}]
     files = [["students.txt","Student ID,Name,Contact\n"],
@@ -61,16 +65,37 @@ def main():
     #The main while loop to keep the program running until the user chooses the exit option
     while user_selection != "9":
 
-        #this checks if an enrollment record has been removed without using the system and updates the available seats accordingly
-        update_seats = helper.update_course_available_seats()
+        #========================================================================================================
+                                    #VALIDATES CHANGES MADE WITHOUT THE USE OF THE SYSTEM
+        #========================================================================================================
+        #checks if a course record has been removed without using the system and updates the system accordingly
+        update_course_id = helper.validate_course_id()
+        if update_course_id:
+            print("[+] course records have been changed. It has been updated")
+
+        #checks if a student record has been removed without using the system and updates the system accordingly
+        update_student_id = helper.validate_enrollment_student_id()
+        if update_student_id:
+            print("[+] student records have been changed. It has been updated")
+
+        #checks if an enrollment record has been removed without using the system and updates the available seats accordingly
+        update_seats = helper.validate_course_available_seats()
         if update_seats:
-            print("[+] available seats has been changed. It has been updated")
+            print("[+] enrollment records have been changed. It has been updated")
+
+        #========================================================================================================
+                                                    #VALIDATES USER INPUT
+        #========================================================================================================
         #prompt user for selection, the number of options is dynamic, it changes depending on the size of the options nested list
         user_selection = input(f"\nSelect an Option Between 1 - {len(options)} or type help to display the menu: ")
 
         #check if the user entered a word
         if not user_selection.isdigit():
             user_selection = user_selection.lower()
+
+        #========================================================================================================
+                                                    #MAIN MATCH CASE STATEMENT
+        #========================================================================================================
         #based on the option the user chooses we invoke diffrent functions
         match user_selection:
             case "1":
@@ -108,5 +133,4 @@ def main():
                 print("Invalid Selection!")
                 continue
 
-#Call main function to run the program
 main()
