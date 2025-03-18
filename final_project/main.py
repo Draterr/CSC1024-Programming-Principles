@@ -60,6 +60,11 @@ def main():
 
     #The main while loop to keep the program running until the user chooses the exit option
     while user_selection != "9":
+
+        #this checks if an enrollment record has been removed without using the system and updates the available seats accordingly
+        update_seats = helper.update_course_available_seats()
+        if update_seats:
+            print("[+] available seats has been changed. It has been updated")
         #prompt user for selection, the number of options is dynamic, it changes depending on the size of the options nested list
         user_selection = input(f"\nSelect an Option Between 1 - {len(options)} or type help to display the menu: ")
 

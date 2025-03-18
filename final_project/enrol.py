@@ -14,12 +14,14 @@ def enrol_in_course():
             try:
                 with open("courses.txt","r") as file:
                     content = file.readlines()
+                    #validate that courses.txt has records
                     if len(content) < 2:
                         print("courses.txt has no records!\n")
                         print("Please add a course to the system!")
                         return
                     print("\nCourse ID")
                     print("="*40)
+                    #display the available courses to be enrolled
                     for i in content:
                         details = i.split(",")
                         course_id = details[0]
@@ -35,10 +37,11 @@ def enrol_in_course():
             if course_id.strip().lower() == 'back':
                 return
 
-            #Ensure that the Course_ID is of a probable length
+            #Ensure that the course exists in the system
             if not helper.course_id_exists(course_id,"courses.txt"):
                 print("Course ID is not recorded! Please add it to the system")
                 continue
+            #Ensure that the Course_ID is of a probable length
             if len(course_id) > 20 or len(course_id) <= 0 : 
                 print("Invalid Course Id")
                 continue

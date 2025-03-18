@@ -1,6 +1,9 @@
 import helper
 
 def add_course():
+    """
+    This function adds a course to the system
+    """
     print("Add a new course")
     file_name = "courses.txt"
 

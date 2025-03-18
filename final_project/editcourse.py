@@ -70,15 +70,6 @@ def edit_course():
         #i is the index of the line
         #line is the content of the line
         parts = line.strip().split(",")
-        '''
-        if line = "MTH202,Mathematics,20,25\n"
-        parts = line.strip().split(",")
-        strip = "MTH202,Mathematics,20,25" delete the space in the front and back
-        split = ["MTH202","Mathematics","20","25"] use , to split the string                
-        example:
-        parts[0] = "MTH202"
-        parts[1] = "Mathematics"
-        '''
         if parts[0].strip().lower() == course_id.lower():
             original_course_id = parts[0]
             course_name = parts[1]
@@ -213,11 +204,6 @@ def edit_course():
 
     # Update the file content
     lines[i] = ",".join(parts) + "\n"
-    #parts = ["CS101", "Computer Science", "25", "30"]
-    #",".join(parts)  output: "CS101,Computer Science,25,30"
-    #save new data
-    #let ["id","name","seats"] become "id,name,seats" and add a new line
-    #if no this code then it will not update new data to the file
 
     try:
         with open(file_name, "w", encoding="utf-8") as file: 

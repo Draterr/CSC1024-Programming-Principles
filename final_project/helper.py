@@ -76,32 +76,94 @@ def update_course_availability(course_id,number):
     return -1 #"Courses not found"
 
 def get_enrolled_student_count(course_id):
+    """
+    This function gets a count of the number of active enrollments records for a given course in enrollments.txt
+    """
     try:
         count = 0
         with open("enrollments.txt","r") as file:
+            #Read from enrollments.txt
             content = file.readlines()
+            #iterate over each line
             for line in content:
                 details = line.strip().split(",")
+                #skipping the header
+                if details[0] == 'Student ID':
+                    continue
                 current_course_id = details[1]
                 enrollment_status = details[3].strip()
+                #if course id matches and the it is an active record,
+                #increment the counter
                 if current_course_id ==  course_id and enrollment_status == 'Active':
                         count += 1
         return count
     except Exception as e:
         print(f"Error occured while opening enrollments.txt {e}")
-def update_course_id(old_course_id,new_course_id):
+
+def update_course_available_seats():
+    """
+    This function checks if enrollments records have been removed directly without the system.
+    It then updates the courses.txt available seats accordingly
+    """
+    rewrite = False
     try:
-        with open("enrollments.txt","r") as file:
+        with open("courses.txt","r") as file:
+            #Read from the courses.txt file
             content = file.readlines()
+            #iterate over each line
             for index,line in enumerate(content):
                 details = line.strip().split(",")
+                #skipping the header
+                if details[0] == 'Course ID':
+                    continue
+                current_line_course_id = details[0]
+                course_name = details[1]
+                old_available_seats = int(details[2])
+                maximum_seats = int(details[3])
+                #get a count of the number of records for this course in enrollments.txt
+                enrolled_count = get_enrolled_student_count(current_line_course_id)
+                #calculate the number of available seats
+                new_available_seats = maximum_seats - enrolled_count
+                #if the number of enrollment records does not match the current available seats we update it
+                if old_available_seats != new_available_seats:
+                    new_record = f"{current_line_course_id},{course_name},{new_available_seats},{maximum_seats}\n"
+                    content[index] = new_record
+                    rewrite = True
+            #if we need to insert new line to the file then we set rewrite to True
+            if rewrite:
+                try:
+                    with open("courses.txt","w") as file:
+                        file.writelines(content)
+                        return True
+                except Exception as e:
+                    print(f"Error opening courses.txt for writing {e}")
+    except Exception as e:
+        print(f"Error opening courses.txt for reading {e}")
+        return False
+
+def update_course_id(old_course_id,new_course_id):
+    """
+    This function updates the course_id to a new course_id
+    """
+    try:
+        #Read from the courses.txt file
+        with open("enrollments.txt","r") as file:
+            content = file.readlines()
+            #Iterate over each line
+            for index,line in enumerate(content):
+                details = line.strip().split(",")
+                #skipping the header
+                if details[0] == "Student ID":
+                    continue
                 student_id = details[0]
                 course_id = details[1]
                 enrollment_information = details[2]
                 enrollment_status = details[3]
+                #construct the new line
                 if course_id == old_course_id:
                     new_line = f"{student_id},{new_course_id},{enrollment_information},{enrollment_status}\n"
                     content[index] = new_line
+            #write the new line
             try:
                 with open("enrollments.txt","w") as file:
                     file.writelines(content)
@@ -113,8 +175,14 @@ def update_course_id(old_course_id,new_course_id):
         print(f"Error when opening enrollments.txt {e}")
 
 def course_id_exists(course_id, file_name):
+    """
+    This function check if a course_id already exists.
+    returns True if so and False if not
+    """
+   
     try:
         with open(file_name, "r", encoding="utf-8") as file:
+            #iterate over each line checking if the course_id matches
             for line in file:
                 if line.split(",")[0].strip().lower() == course_id.lower():
                     return True
@@ -123,8 +191,13 @@ def course_id_exists(course_id, file_name):
     return False
 
 def course_name_exists(course_name, file_name):
+    """
+    This function check if a course_name already exists.
+    returns True if so and False if not
+    """
     try:
         with open(file_name, "r", encoding="utf-8") as file:
+            #iterate over each line checking if the course_name matches
             for line in file:
                 if len(line.split(",")) > 1 and course_name.strip().lower() == line.split(",")[1].strip().lower():
                     return True
@@ -133,14 +206,20 @@ def course_name_exists(course_name, file_name):
     return False
 
 def student_id_exists(student_id, file_name):
+    """
+    This function check if a student_id already exists.
+    returns True if so and False if not
+    """
     try:
         with open(file_name, "r", encoding="utf-8") as file:
+            #iterate over each line checking if the student_id matches
             for line in file:
                 if len(line.split(",")) > 1 and student_id == line.split(",")[0].strip():
                     return True
     except:
         print(f"Failed to open {file_name}")
     return False
+
 
 def initial_data_preparation(files):
     """
