@@ -10,6 +10,7 @@ def enrol_in_course():
     while True:
         course_id = ""
         student_id = ""
+<<<<<<< HEAD
         try:
             with open("courses.txt","r") as file:
                 content = file.readlines()
@@ -31,6 +32,29 @@ def enrol_in_course():
         except Exception as e:
             print(f"Failed to open courses.txt {e}")
             return
+=======
+        while True:
+            try:
+                with open("courses.txt","r") as file:
+                    content = file.readlines()
+                    #validate that courses.txt has records
+                    if len(content) < 2:
+                        print("[-] courses.txt has no records!\n")
+                        print("[-] Please add a course to the system!")
+                        return
+                    print("\nCourse ID")
+                    print("="*40)
+                    #display the available courses to be enrolled
+                    for i in content:
+                        details = i.split(",")
+                        course_id = details[0]
+                        if course_id != "Course ID":
+                            print(f"{course_id:<7}")
+                    print("="*40)
+            except:
+                print("[-] Failed to open courses.txt")
+                return
+>>>>>>> fe240c5012bed33b3ea9d03bd9028410a5e6df6d
 
         #Ask the user for the Course ID
         while True:

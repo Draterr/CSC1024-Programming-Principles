@@ -14,11 +14,20 @@ def drop_course():
                 with open("courses.txt","r") as file:
                     content = file.readlines()
                     if len(content) < 2:
-                        print("courses.txt has no records!\n")
-                        print("Please add a course to the system!")
+                        print("[-] courses.txt has no records!\n")
+                        print("[-] Please add a course to the system!")
                         return
+                    print("\nCourse ID")
+                    print("="*40)
+                    #display the available courses to be enrolled
+                    for i in content:
+                        details = i.split(",")
+                        course_id = details[0]
+                        if course_id != "Course ID":
+                            print(f"{course_id:<7}")
+                    print("="*40)
             except:
-                print("Failed to open courses.txt")
+                print("[-] Failed to open courses.txt")
                 return
             course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'back' to back: \n")
             if course_id.strip().lower() == 'back':
@@ -26,11 +35,11 @@ def drop_course():
 
             #ensure that the course exists in our system
             if not helper.course_id_exists(course_id,"courses.txt"):
-                print("Course is not recorded! Please add it to the system!")
+                print("[-] Course is not recorded! Please add it to the system!")
                 continue
             #Ensure that the Course_ID is of a probable length
             if len(course_id) > 20 or len(course_id) <= 0 :
-                print("Invalid Course Id")
+                print("[-] Invalid Course Id")
                 continue
             else:
                 break
@@ -42,11 +51,11 @@ def drop_course():
                 return
             #ensure that the student id exists in our system
             if not helper.student_id_exists(student_id,"students.txt"):
-                print("Student ID is not recorded! Please add it to the system!")
+                print("[-] Student ID is not recorded! Please add it to the system!")
                 continue
             #Ensure that the student_id is of a probable length
             if len(student_id) > 9 or len(course_id) <= 0:
-                print("Invalid Student Id")
+                print("[-] Invalid Student Id")
                 continue
             else:
                 break
@@ -102,10 +111,10 @@ def drop_course():
                                     print(f"[+] Successfully Dropped Course {course_id}")
                                     continue
                                 except:
-                                    print("Failed to open enrollments.txt file")
+                                    print("[-] Failed to open enrollments.txt file")
                                     continue
                 except:
-                        print("Failed to open enrollments.txt file")
+                        print("[-] Failed to open enrollments.txt file")
                         continue
             #If the course is not found
             elif update_status == -1:
