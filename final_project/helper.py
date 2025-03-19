@@ -208,7 +208,7 @@ def course_name_exists(course_name, file_name):
 def student_id_exists(student_id, file_name):
     """
     This function check if a student_id already exists.
-    returns True if so and False if not
+    returns True f so and False if not
     """
     try:
         with open(file_name, "r", encoding="utf-8") as file:

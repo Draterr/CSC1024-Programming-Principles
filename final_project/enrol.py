@@ -10,29 +10,30 @@ def enrol_in_course():
     while True:
         course_id = ""
         student_id = ""
-        while True:
-            try:
-                with open("courses.txt","r") as file:
-                    content = file.readlines()
-                    #validate that courses.txt has records
-                    if len(content) < 2:
-                        print("courses.txt has no records!\n")
-                        print("Please add a course to the system!")
-                        return
-                    print("\nCourse ID")
-                    print("="*40)
-                    #display the available courses to be enrolled
-                    for i in content:
-                        details = i.split(",")
-                        course_id = details[0]
-                        if course_id != "Course ID":
-                            print(f"{course_id:<7}")
-                    print("="*40)
-            except:
-                print("Failed to open courses.txt")
-                return
+        try:
+            with open("courses.txt","r") as file:
+                content = file.readlines()
+                #validate that courses.txt has records
+                if len(content) < 2:
+                    print("courses.txt has no records!\n")
+                    print("Please add a course to the system!")
+                    return
+                print("\nCourse ID")
+                print("="*40)
+                #display the available courses to be enrolled
+                for i in content:
+                    details = i.split(",")
+                    course_id = details[0]
+                    available_seats = details[2]
+                    if course_id != "Course ID" and available_seats != '0':
+                        print(f"{course_id:<7}")
+                print("="*40)
+        except Exception as e:
+            print(f"Failed to open courses.txt {e}")
+            return
 
-            #Ask the user for the Course ID
+        #Ask the user for the Course ID
+        while True:
             course_id = input("Which Course would you like to enroll in? Enter the Course ID or 'back' to exit: \n")
             if course_id.strip().lower() == 'back':
                 return
@@ -100,4 +101,4 @@ def enrol_in_course():
             print("[-] You are already enrolled\n")
             continue
 
-        
+            

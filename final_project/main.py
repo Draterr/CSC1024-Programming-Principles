@@ -59,11 +59,8 @@ def main():
     title = "Course Registration System"
     helper.display_menu(title,options)
 
-    #define user_selection to be an empty string to ensure the while loop's condition is true
-    user_selection = ""
-
     #The main while loop to keep the program running until the user chooses the exit option
-    while user_selection != "9":
+    while True:
 
         #========================================================================================================
                                     #VALIDATES CHANGES MADE WITHOUT THE USE OF THE SYSTEM
