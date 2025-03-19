@@ -16,8 +16,8 @@ def enrol_in_course():
                     content = file.readlines()
                     #validate that courses.txt has records
                     if len(content) < 2:
-                        print("courses.txt has no records!\n")
-                        print("Please add a course to the system!")
+                        print("[-] courses.txt has no records!\n")
+                        print("[-] Please add a course to the system!")
                         return
                     print("\nCourse ID")
                     print("="*40)
@@ -29,7 +29,7 @@ def enrol_in_course():
                             print(f"{course_id:<7}")
                     print("="*40)
             except:
-                print("Failed to open courses.txt")
+                print("[-] Failed to open courses.txt")
                 return
 
             #Ask the user for the Course ID
@@ -39,11 +39,11 @@ def enrol_in_course():
 
             #Ensure that the course exists in the system
             if not helper.course_id_exists(course_id,"courses.txt"):
-                print("Course ID is not recorded! Please add it to the system")
+                print("[-] Course ID is not recorded! Please add it to the system")
                 continue
             #Ensure that the Course_ID is of a probable length
             if len(course_id) > 20 or len(course_id) <= 0 : 
-                print("Invalid Course Id")
+                print("[-] Invalid Course Id")
                 continue
             else:
                 break
@@ -54,12 +54,12 @@ def enrol_in_course():
                 return
             #ensure that the student id exists in our records
             if not helper.student_id_exists(student_id,"students.txt"):
-                print("Student ID is not recorded! Please add it to the system")
+                print("[-] Student ID is not recorded! Please add it to the system")
                 continue
             else:
                 #Ensure that the student_ID is of a probable length
                 if len(student_id) > 9 or len(student_id) <= 0 :
-                    print("Invalid Student Id")
+                    print("[-] Invalid Student Id")
                     continue
                 else:
                     break

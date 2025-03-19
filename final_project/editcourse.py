@@ -21,15 +21,15 @@ def edit_course():
                         courses.append(f"{course_id} - {course_name} ({available_seats}) ({maximum_seats})")
 
     except FileNotFoundError:
-        print("Failed to open courses.txt. File not found.")
+        print("[-] Failed to open courses.txt. File not found.")
         return
     except:
-        print("Failed to open enrollments.txt")
+        print("[-] Failed to open enrollments.txt")
         return
 
     # If no courses available
     if not courses:
-        print("No courses available to edit.")
+        print("[-] No courses available to edit.")
         return
 
     for course in courses: #if course available then print out
@@ -39,14 +39,14 @@ def edit_course():
     while True:
         course_id = input("Enter course ID to edit or 'back' to exit: ").strip()
         if not course_id.strip().isalnum():
-            print("course ID cannot contain special characters! Please Try Again!")
+            print("[-] course ID cannot contain special characters! Please Try Again!")
             continue
         if not course_id:
-                print("Invalid ID,Please enter again.")
+                print("[-] Invalid ID,Please enter again.")
         if course_id.lower() == "back": #user enter back can back to main menu.
             return
         if not helper.course_id_exists(course_id, file_name): #check course_id is inside the file or not
-            print("Course ID does not exist. Try again.")
+            print("[-] Course ID does not exist. Try again.")
             continue
         break
 
@@ -62,7 +62,7 @@ def edit_course():
                         enrolled_students += 1 
                         #check how many students are enrolled this course.
     except FileNotFoundError:
-        print("Warning: enrollments.txt not found. Cannot check enrollments.")
+        print("[-] Warning: enrollments.txt not found. Cannot check enrollments.")
 
     # Find the course in file
     for i, line in enumerate(lines):
@@ -98,13 +98,13 @@ def edit_course():
             while True:
                 new_course_id = input("Enter new course ID: ").strip()
                 if not new_course_id.strip().isalnum():
-                    print("course ID cannot contain special characters! Please Try Again!")
+                    print("[-] course ID cannot contain special characters! Please Try Again!")
                     continue
                 if not new_course_id: #if user not enter anything then it will run this code
-                    print("Invalid ID,Please enter again.")
+                    print("[-] Invalid ID,Please enter again.")
                     continue
                 if helper.course_id_exists(new_course_id, file_name): #check if the course id that user input is exist or not.
-                    print("Course ID already exists. Please enter a different course ID.")
+                    print("[-] Course ID already exists. Please enter a different course ID.")
                 else:
                     break
             parts[0] = new_course_id  #save new id into parts[0]
@@ -115,10 +115,10 @@ def edit_course():
                     helper.update_course_id(course_id,new_course_id)
                     break
                 elif if_update == 'N':
-                    print("The course ID was not updated!")
+                    print("[-] The course ID was not updated!")
                     return
                 else:
-                    print("Invalid Input! Please input Y or N")
+                    print("[-] Invalid Input! Please input Y or N")
 
             break
 
@@ -126,13 +126,13 @@ def edit_course():
             while True:
                 new_course_name = input("Enter new course name: ").strip()
                 if not new_course_name.strip().replace(" ","").isalnum():
-                    print("course ID cannot contain special characters! Please Try Again!")
+                    print("[-] course ID cannot contain special characters! Please Try Again!")
                     continue
                 if not new_course_name: #same as course id
-                    print("Invalid Name,Please enter again.")
+                    print("[-] Invalid Name,Please enter again.")
                     continue
                 if helper.course_name_exists(new_course_name, file_name):
-                    print("Course name already exists. Please enter a different course name.")
+                    print("[-] Course name already exists. Please enter a different course name.")
                 else:
                     break
             parts[1] = new_course_name
@@ -149,32 +149,32 @@ def edit_course():
                                 enrolled_course_id = data[1]
                                 enrollment_status = data[3].strip().lower()  # Extract "Active" or "Dropped"
                                 if enrolled_course_id == course_id and enrollment_status == "active":
-                                    print("This course has enrolled students and available seats cannot be edited.\n") #all this code is checking courses have enrolled students or not if yes then cannot be deleted
+                                    print("[-] This course has enrolled students and available seats cannot be edited.\n") #all this code is checking courses have enrolled students or not if yes then cannot be deleted
                                     if_has_enrolled = True
                         if if_has_enrolled:
                             break
                 except Exception as e:
-                    print(f"Failed to open enrollments.txt {e}")
+                    print(f"[-] Failed to open enrollments.txt {e}")
                 try:
                     new_course_seats = int(input("Enter new available seats: ").strip())
                     enrolled_students_count = helper.get_enrolled_student_count(course_id)
                     if new_course_seats != int(max_seats) - enrolled_students_count:
-                        print(f"There are {enrolled_students_count} students enrolled")
+                        print(f"[*] There are {enrolled_students_count} students enrolled")
                     if new_course_seats > (int(max_seats) - int(enrolled_students)) and enrolled_students != 0:
-                        print(f'That is {enrolled_students} students enrolled this courses, so it must be {enrolled_students} lower than {max_seats}')
+                        print(f'[*] That is {enrolled_students} students enrolled this courses, so it must be {enrolled_students} lower than {max_seats}')
                         continue #new_course_Seats cannot be smaller than max seats - enrolled student.
 
                     if new_course_seats < enrolled_students:
-                        print(f"Error: Available seats cannot be lower than {enrolled_students} (currently enrolled students).")
+                        print(f"[-] Error: Available seats cannot be lower than {enrolled_students} (currently enrolled students).")
                         continue
 
                     if new_course_seats > int(max_seats): #check available seats is higher than maximum seats or not.
-                        print("Available seats cannot be greater than maximum seats.") #if yes then print this
+                        print("[-] Available seats cannot be greater than maximum seats.") #if yes then print this
                         continue
                     parts[2] = str(new_course_seats)
                     break
                 except ValueError: #if user didn't enter a integer then it will run this code
-                    print("Please enter a valid number.")
+                    print("[-] Please enter a valid number.")
 
         elif field_to_edit == "4":
             while True:
@@ -182,15 +182,15 @@ def edit_course():
                     new_max_seats = int(input("Enter new maximum seats: ").strip())
 
                     if new_max_seats < enrolled_students:
-                        print(f"Error: Maximum seats cannot be lower than {enrolled_students} (currently enrolled students).") #check maximum seats is greater then enrolled student or not.
+                        print(f"[-] Error: Maximum seats cannot be lower than {enrolled_students} (currently enrolled students).") #check maximum seats is greater then enrolled student or not.
                         continue 
 
                     if new_max_seats < int(available_seats): #check maximum seats is smaller than available seats or not
-                        print("Maximum seats can't be smaller than available seats.") #if yes then print this
+                        print("[-] Maximum seats can't be smaller than available seats.") #if yes then print this
                         continue
                     break
                 except ValueError: #same as available seats.
-                    print("Enter a valid number.")
+                    print("[-] Enter a valid number.")
             new_course_seats = (int(new_max_seats) - int(enrolled_students)) #new max seats will also change new available seats so if enrolled student = 2 maximum = 2 then available = 0
             parts[2] = str(new_course_seats)
             parts[3] = str(new_max_seats) 
@@ -199,7 +199,7 @@ def edit_course():
         elif field_to_edit == "5": #user choose back so return to main menu.
             return
         else:
-            print("Invalid choice. Please enter 1, 2, 3, 4, or 5.") #if user not input 1-5 then will print this.
+            print("[-] Invalid choice. Please enter 1, 2, 3, 4, or 5.") #if user not input 1-5 then will print this.
             continue
 
     # Update the file content
@@ -209,6 +209,6 @@ def edit_course():
         with open(file_name, "w", encoding="utf-8") as file: 
             file.writelines(lines) 
             #write the new data to the file
-        print("Course updated successfully.")
+        print("[+] Course updated successfully.")
     except:
-        print("Failed to open this file")
+        print("[-] Failed to open this file")
