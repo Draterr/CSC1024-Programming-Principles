@@ -38,32 +38,29 @@ def enrol_in_course():
             if course_id.strip().lower() == 'back':
                 return
 
-            #Ensure that the course exists in the system
-            if not helper.course_id_exists(course_id,"courses.txt"):
-                print("[-] Course ID is not recorded! Please add it to the system")
-                continue
             #Ensure that the Course_ID is of a probable length
             if len(course_id) > 20 or len(course_id) <= 0 : 
                 print("[-] Invalid Course Id")
                 continue
-            else:
-                break
+            #Ensure that the course exists in the system
+            if not helper.course_id_exists(course_id,"courses.txt"):
+                print("[-] Course ID is not recorded! Please add it to the system")
+                continue
+            break
         while True:
             #Ask the user for their studentID
             student_id = input("Enter your student ID or 'back' to exit: \n")
             if student_id.strip().lower() == 'back':
                 return
+            #Ensure that the student_ID is of a probable length
+            if len(student_id) > 9 or len(student_id) <= 0 :
+                print("[-] Invalid Student Id")
+                continue
             #ensure that the student id exists in our records
             if not helper.student_id_exists(student_id,"students.txt"):
                 print("[-] Student ID is not recorded! Please add it to the system")
                 continue
-            else:
-                #Ensure that the student_ID is of a probable length
-                if len(student_id) > 9 or len(student_id) <= 0 :
-                    print("[-] Invalid Student Id")
-                    continue
-                else:
-                    break
+            break
         #first check whether the student is already enrolled to this course
         enroll_status = helper.check_if_student_is_enrolled(student_id,course_id)
 
