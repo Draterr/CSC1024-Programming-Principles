@@ -1,4 +1,5 @@
 courses.txt
+*.zip
 enrollments.txt
 students.txt
 __pycache__

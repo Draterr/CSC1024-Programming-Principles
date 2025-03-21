@@ -65,10 +65,6 @@ def main():
         #========================================================================================================
                                     #VALIDATES CHANGES MADE WITHOUT THE USE OF THE SYSTEM
         #========================================================================================================
-        #checks if a course record has been removed without using the system and updates the system accordingly
-        update_course_id = helper.validate_course_id()
-        if update_course_id:
-            print("[+] course records have been changed. It has been updated")
 
         #checks if a student record has been removed without using the system and updates the system accordingly
         update_student_id = helper.validate_enrollment_student_id()

@@ -1,4 +1,5 @@
 import os 
+import datetime
 
 def check_if_student_is_enrolled(student_id,course_id):
     """
@@ -220,39 +221,6 @@ def student_id_exists(student_id, file_name):
         print(f"Failed to open {file_name}")
     return False
 
-def validate_course_id():
-    """
-    This function checks if course records have been removed directly without the system.
-    It then deletes any record with that course id in enrollments.txt 
-    """
-    rewrite = False
-    try:
-        with open("enrollments.txt","r") as file:
-            #Read from the enrollments.txt file
-            content = file.readlines()
-            #iterate over each line
-            for index,line in enumerate(content):
-                details = line.strip().split(",")
-                #skipping the header
-                if details[0] == 'Student ID':
-                    continue
-                current_line_course_id = details[1]
-                exists = course_id_exists(current_line_course_id,"courses.txt")
-                #if the course does not exist anymore in courses.txt
-                if not exists:
-                    content[index] = ''
-                    rewrite = True
-            #if we need to insert new line to the file then we set rewrite to True
-            if rewrite:
-                try:
-                    with open("enrollments.txt","w") as file:
-                        file.writelines(content)
-                        return True
-                except Exception as e:
-                    print(f"Error opening enrollments.txt for writing {e}")
-    except Exception as e:
-        print(f"Error opening enrollments.txt for reading {e}")
-        return False
 def validate_enrollment_student_id():
     """
     This function checks if student records have been removed directly without the system.
