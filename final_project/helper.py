@@ -301,3 +301,7 @@ def display_menu(title,options):
 
     #more "=" to contain the output
     print("="*50)
+
+
+#change file path to the path of the python script
+os.chdir(os.path.dirname(os.path.abspath(__file__)))

@@ -18,7 +18,7 @@ def drop_course():
                         return
                     print("\nCourse ID")
                     print("="*40)
-                    #display the available courses to be enrolled
+                    #display the available courses to be dropped
                     for i in content:
                         details = i.split(",")
                         course_id = details[0]
@@ -32,14 +32,14 @@ def drop_course():
                 course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'back' to back: \n")
                 if course_id.strip().lower() == 'back':
                     return
+                #Ensure that the Course_ID is of a probable length
+                if len(course_id) > 20 or len(course_id) <= 0 :
+                    print("[-] Invalid Course Id")
+                    continue
 
                 #ensure that the course exists in our system
                 if not helper.course_id_exists(course_id,"courses.txt"):
                     print("[-] Course is not recorded! Please add it to the system!")
-                    continue
-                #Ensure that the Course_ID is of a probable length
-                if len(course_id) > 20 or len(course_id) <= 0 :
-                    print("[-] Invalid Course Id")
                     continue
                 else:
                     break
@@ -49,13 +49,13 @@ def drop_course():
                 student_id = input("Enter your student ID or 'back' to back: \n")
                 if student_id.strip().lower() == 'back':
                     return
-                #ensure that the student id exists in our system
-                if not helper.student_id_exists(student_id,"students.txt"):
-                    print("[-] Student ID is not recorded! Please add it to the system!")
-                    continue
                 #Ensure that the student_id is of a probable length
                 if len(student_id) > 9 or len(course_id) <= 0:
                     print("[-] Invalid Student Id")
+                    continue
+                #ensure that the student id exists in our system
+                if not helper.student_id_exists(student_id,"students.txt"):
+                    print("[-] Student ID is not recorded! Please add it to the system!")
                     continue
                 else:
                     break
@@ -64,7 +64,7 @@ def drop_course():
             enroll_status = helper.check_if_student_is_enrolled(student_id,course_id)
             #if they are enrolled in that course, then we can proceed with dropping
             if enroll_status:
-                #we check if the course exists and reduce one seat for the course
+                #we check if the course exists and free up one seat for the course
                 update_status = helper.update_course_availability(course_id,1)
                 #if update_status returns 1(success), we find the student's Active record in enrollments.txt for this course,
                 #then we change the status from "Active" to "Dropped" and update the date to the current day

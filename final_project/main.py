@@ -1,5 +1,6 @@
 import view_available_courses
 import add_new_student
+import os
 import display_student_list
 import helper
 import enrol
@@ -127,3 +128,5 @@ def main():
                 continue
 
 main()
+#change file path to the path of the python script
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
