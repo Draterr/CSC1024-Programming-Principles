@@ -34,7 +34,7 @@ def enrol_in_course():
 
         #Ask the user for the Course ID
         while True:
-            course_id = input("Which Course would you like to enroll in? Enter the Course ID or 'back' to exit: \n")
+            course_id = input("Which Course would you like to enroll in? Enter the Course ID or 'back' to exit: \n").upper()
             if course_id.strip().lower() == 'back':
                 return
 

@@ -29,7 +29,7 @@ def drop_course():
                 print("[-] Failed to open courses.txt")
                 return
             while True:
-                course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'back' to back: \n")
+                course_id = input("\nWhich Course would you like to drop? Enter the Course ID or 'back' to back: \n").upper()
                 if course_id.strip().lower() == 'back':
                     return
                 #Ensure that the Course_ID is of a probable length

@@ -8,7 +8,7 @@ def add_course():
     file_name = "courses.txt"
 
     while True:
-        course_id = input("Enter course id or 'back' to exit: ")
+        course_id = input("Enter course id or 'back' to exit: ").upper()
         if course_id.lower() == "back": #allow user to exit when enter 'back'
                 return
         if not course_id.strip().isalnum():

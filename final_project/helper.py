@@ -57,7 +57,7 @@ def update_course_availability(course_id,number):
         #Check if the course exists by checking if that course_id exists
         #if we find a match we will either increment the available seats(add +1) or decrement(add -1)
         #We need to ensure that we don't decrement till negative and we don't increment above the maximum amount of seats
-        if course_id == current_course_id:
+        if course_id.upper() == current_course_id:
                 if (number == -1 and available_seats != 0) or (number == 1 and available_seats < maximum_seats):
                     available_seats += number
                     #Update the temp_memory list with the new amount of available seats
@@ -159,9 +159,10 @@ def update_course_id(old_course_id,new_course_id):
                 student_id = details[0]
                 course_id = details[1]
                 enrollment_information = details[2]
+                new_course_id = new_course_id.upper()
                 enrollment_status = details[3]
                 #construct the new line
-                if course_id == old_course_id:
+                if course_id.strip().lower() == old_course_id.strip().lower():
                     new_line = f"{student_id},{new_course_id},{enrollment_information},{enrollment_status}\n"
                     content[index] = new_line
             #write the new line
@@ -228,7 +229,7 @@ def validate_enrollment_student_id():
     """
     rewrite = False
     try:
-        with open("enrollments.txt","r") as file:
+        with open("./enrollments.txt","r") as file:
             #Read from the courses.txt file
             content = file.readlines()
             #iterate over each line
@@ -264,8 +265,10 @@ def initial_data_preparation(files):
     """
 
     # Create required files if they don’t exist
+    current_path = os.path.dirname(os.path.abspath(__file__))
     for individual_file_properties in files:
         file_name = individual_file_properties[0]
+        file_name = os.path.join(current_path,file_name)
         file_header = individual_file_properties[1]
         #we check if the file already exists to prevent writing extra headers
         if not os.path.isfile(file_name):
@@ -274,8 +277,8 @@ def initial_data_preparation(files):
             try:
                 with open(file_name,"w+") as file_handle:
                     file_handle.write(file_header)
-            except:
-                print(f"failed to open {file_name}")
+            except Exception as e:
+                print(f"failed to open {file_name}{e}")
 
 def display_menu(title,options):
     """
@@ -301,6 +304,7 @@ def display_menu(title,options):
 
     #more "=" to contain the output
     print("="*50)
+
 
 
 #change file path to the path of the python script

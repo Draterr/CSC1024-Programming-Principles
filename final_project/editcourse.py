@@ -54,12 +54,13 @@ def edit_course():
     try:
         with open(enrollment_file, "r", encoding="utf-8") as file:
             for line in file:
-                data = line.strip().split(",")
-                if len(data) >= 4:
-                    enrolled_course_id = data[1] #check course id and enrolled course id is same or not
-                    enrollment_status = data[3].strip().lower() #check status is active or not.
-                    if enrolled_course_id == course_id and enrollment_status == "active":
-                        enrolled_students += 1 
+                if not line.startswith("Student ID"):
+                    data = line.strip().split(",")
+                    if len(data) >= 4:
+                        enrolled_course_id = data[1].strip().lower() #check course id and enrolled course id is same or not
+                        enrollment_status = data[3].strip().lower() #check status is active or not.
+                        if enrolled_course_id.lower() == course_id.lower() and enrollment_status == "active":
+                            enrolled_students += 1 
                         #check how many students are enrolled this course.
     except FileNotFoundError:
         print("[-] Warning: enrollments.txt not found. Cannot check enrollments.")
@@ -95,7 +96,7 @@ def edit_course():
 
         if field_to_edit == "1":
             while True:
-                new_course_id = input("Enter new course ID: ").strip()
+                new_course_id = input("Enter new course ID: ").strip().upper()
                 if not new_course_id.strip().isalnum():
                     print("[-] course ID cannot contain special characters! Please Try Again!")
                     continue
@@ -146,7 +147,7 @@ def edit_course():
                         print(f"[-] Error: Maximum seats cannot be lower than {enrolled_students} (currently enrolled students).") #check maximum seats is greater then enrolled student or not.
                         continue 
 
-                    if new_max_seats < int(available_seats): #check maximum seats is smaller than available seats or not
+                    if enrolled_students != 0 and new_max_seats < int(available_seats): #check maximum seats is smaller than available seats or not
                         print("[-] Maximum seats can't be smaller than available seats.") #if yes then print this
                         continue
                     break

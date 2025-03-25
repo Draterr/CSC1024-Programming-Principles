@@ -46,9 +46,9 @@ def delete_course():
                     for line in file:
                         data = line.strip().split(",")
                         if len(data) >= 4:
-                            enrolled_course_id = data[1]
+                            enrolled_course_id = data[1].strip().lower() 
                             enrollment_status = data[3].strip().lower()  # Extract "Active" or "Dropped"
-                            if enrolled_course_id == course_id and enrollment_status == "active":
+                            if enrolled_course_id.lower() == course_id.lower() and enrollment_status == "active":
                                 print("[-] This course has enrolled students and cannot be deleted.") #all this code is checking courses have enrolled students or not if yes then cannot be deleted
                                 return
             except FileNotFoundError:
